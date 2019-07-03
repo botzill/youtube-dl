@@ -71,6 +71,7 @@ class PornTrexIE(InfoExtractor):
                 'duration': int,
                 'categories': list,
                 'tags': list,
+                'models': list,
                 'age_limit': 18,
             },
         },
@@ -92,6 +93,7 @@ class PornTrexIE(InfoExtractor):
                 'categories': list,
                 'duration': int,
                 'tags': list,
+                'models': list,
                 'age_limit': 18,
             },
         }
@@ -174,6 +176,9 @@ class PornTrexIE(InfoExtractor):
         if tags:
             tags = tags[1:]
 
+        models = re.findall(r'<a href=["\'].+?/models/[a-z-/0-9]+["\']><i.+?</i>(.+?)</a>', webpage)
+        models = list(map(lambda m: m.strip(), models))
+
         upload_date = self._html_search_regex(
             r'<i class=["\'].+?fa-calendar["\']></i>\s*<em class="badge">(.+?)</em>',
             webpage,
@@ -206,6 +211,7 @@ class PornTrexIE(InfoExtractor):
             'categories': categories,
             'duration': duration,
             'tags': tags,
+            'models': models,
             'formats': formats,
             'age_limit': 18
         }
