@@ -220,7 +220,7 @@ class InfoExtractor(object):
                         * "preference" (optional, int) - quality of the image
                         * "width" (optional, int)
                         * "height" (optional, int)
-                        * "resolution" (optional, string "{width}x{height"},
+                        * "resolution" (optional, string "{width}x{height}",
                                         deprecated)
                         * "filesize" (optional, int)
     thumbnail:      Full URL to a video thumbnail image.
@@ -1424,12 +1424,10 @@ class InfoExtractor(object):
         try:
             self._request_webpage(url, video_id, 'Checking %s URL' % item, headers=headers)
             return True
-        except ExtractorError as e:
-            if isinstance(e.cause, compat_urllib_error.URLError):
-                self.to_screen(
-                    '%s: %s URL is invalid, skipping' % (video_id, item))
-                return False
-            raise
+        except ExtractorError:
+            self.to_screen(
+                '%s: %s URL is invalid, skipping' % (video_id, item))
+            return False
 
     def http_scheme(self):
         """ Either "http:" or "https:", depending on the user's preferences """
